@@ -7,6 +7,7 @@ public class MainMenuManager : MonoBehaviour
 {
     public GameObject MainMenu;
     public GameObject SubMenu;
+    public GameObject tutorial;
 
     public void ClickPlay()
     {
@@ -16,6 +17,12 @@ public class MainMenuManager : MonoBehaviour
     public void ClickQuit()
     {
         Application.Quit();
+    }
+
+    public void Tutorial()
+    {
+        SubMenu.SetActive(false);
+        tutorial.SetActive(true);
     }
 
     public void LoadLevel(string name)

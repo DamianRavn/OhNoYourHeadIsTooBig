@@ -9,7 +9,7 @@ public class TripBox : MonoBehaviour
         TripLogic player = other.GetComponent<TripLogic>();
         if (player)
         {
-            player.thirdPersonMovement.AddForce(5, player.transform.position - transform.position);
+            player.thirdPersonMovement.AddForce(4, player.transform.position - transform.position);
         }
     }
 }

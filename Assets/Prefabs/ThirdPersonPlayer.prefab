@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 6658069842958442887}
   cameraLookAtPoint: {fileID: 6658069843980164467}
-  speed: 2
+  speed: 4
 --- !u!114 &6658069842958442880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,13 +270,10 @@ MonoBehaviour:
   thirdPersonMovement: {fileID: 6658069842958442886}
   maxTripRotationZ: 50
   baseJumpHeight: 0.4
-  balanceInterval: 0.13
-  balanceIntervalMultiplyer: 2.3
-  invokeRepeatingTimer: 0.2
-  turnZSpeed: 2
+  balanceInterval: 0.4
+  balanceIntervalMultiplyer: 3
   turnYSpeed: 23
   turnSmoothTime: 0.1
-  balanceAllowedThreshold: 0.3
   extraJumpOnClick: 3.5
   tripScale: 0
 --- !u!1 &6658069843123982896
@@ -398,7 +395,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6658069843980164466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.76, z: 0}
+  m_LocalPosition: {x: 0, y: 2.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6658069842958442885}

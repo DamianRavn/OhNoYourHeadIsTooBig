@@ -24,8 +24,11 @@ public class Coin : MonoBehaviour
         if (handler != null)
         {
             handler.HandleCoinTrigger();
-            AudioSource.PlayClipAtPoint(coinSound, transform.position);
-            Destroy(gameObject);
+            //AudioSource.PlayClipAtPoint(coinSound, transform.position, 1f); //Only works sometimes????
+            GetComponent<AudioSource>().PlayOneShot(coinSound);
+            GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
+            Destroy(gameObject, coinSound.length);
         }
     }
 }

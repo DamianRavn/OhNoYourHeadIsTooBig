@@ -9,16 +9,15 @@ public class TripLogic : MonoBehaviour
     private int HalfScreenSize = Screen.width/2;
     public float maxTripRotationZ = 50f;
 
+    private int dir = 1;
+
     public float baseJumpHeight = 2f;
-    public float balanceInterval = 0.1f;
+    public float balanceInterval = 2f;
     public float balanceIntervalMultiplyer = 2.3f;
-    public float invokeRepeatingTimer = 0.2f;
     private float turnSmoothVelocity;
     private float turnSmoothVelocityY;
-    public float turnZSpeed = 2;
     public float turnYSpeed = 2;
     public float turnSmoothTime = 0.1f;
-    public float balanceAllowedThreshold = 0.2f;
 
     private float extraJumpPowerMultBase = 1f;
     private float extraJumpPowerMult = 1f;
@@ -38,10 +37,12 @@ public class TripLogic : MonoBehaviour
 
     private void Update()
     {
+        if (tripScale == 0) tripScale = 0.1f * dir;
+
         RayCastDown();
         RotatePlayer();
         UpdateTriping();
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             Balance(Input.mousePosition);
         }
@@ -50,11 +51,9 @@ public class TripLogic : MonoBehaviour
 
     private void UpdateTriping()
     {
-        if(tripScale == 0) tripScale = Random.Range(-0.15f, 0.15f);
-
-        float tripNumber = Mathf.Sign(tripScale) * balanceInterval * Time.deltaTime * turnZSpeed;
+        float tripNumber = Mathf.Sign(tripScale) * balanceInterval * Time.deltaTime;
         tripScale += tripNumber;
-
+        
         float jumpStart = 0.6f;
         if ((tripScale > jumpStart || tripScale < -jumpStart) && thirdPersonMovement.controller.isGrounded)
         {
@@ -66,7 +65,9 @@ public class TripLogic : MonoBehaviour
     {
         //Rotation
         Vector3 rot = transform.eulerAngles;
-        rot.z = Mathf.LerpUnclamped(0, maxTripRotationZ, tripScale);
+        float curve = Mathf.Sin(tripScale * Mathf.PI * 0.5f);
+
+        rot.z = Mathf.LerpUnclamped(0, maxTripRotationZ, curve);
         float yRot = rot.y += -Mathf.Sign(tripScale) * turnYSpeed *  Time.deltaTime;
         float angleZ = Mathf.SmoothDampAngle(transform.eulerAngles.z, rot.z, ref turnSmoothVelocity, turnSmoothTime);
         float angleY = Mathf.SmoothDampAngle(rot.y, yRot, ref turnSmoothVelocityY, turnSmoothTime);
@@ -87,20 +88,25 @@ public class TripLogic : MonoBehaviour
 
     private void Balance(Vector3 towards)
     {
-        if (hit.distance > balanceAllowedThreshold) return;
-
         if (tripScale > 0.999f || tripScale < -0.999f)
         {
             extraJumpPowerMult = extraJumpPowerMultBase + extraJumpOnClick;
         }
 
+        float func = balanceInterval * balanceIntervalMultiplyer * Time.deltaTime;
+
         if (towards.x < HalfScreenSize)
         {
-            tripScale += balanceInterval * balanceIntervalMultiplyer;
+            //Left
+            
+            tripScale += func;
+            dir = 1;
         }
         else
         {
-            tripScale -= balanceInterval * balanceIntervalMultiplyer;
+            //Right
+            tripScale -= func;
+            dir = -1;
         }
     }
 
